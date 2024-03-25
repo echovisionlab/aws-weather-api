@@ -10,11 +10,12 @@ import (
 
 func main() {
 	service, err := app.New()
+
 	if err != nil {
-		log.Printf(err.Error())
+		log.Println(err.Error())
 	}
 
-	exit := make(chan os.Signal)
+	exit := make(chan os.Signal, 1)
 	signal.Notify(exit, syscall.SIGINT, syscall.SIGTERM)
 	cancel := service.Run()
 

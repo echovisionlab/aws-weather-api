@@ -80,6 +80,7 @@ func TestApp_Run(t *testing.T) {
 		resp, err := http.Get("http://localhost:8080/api/v1/station?name=" + name)
 		assert.NoError(t, err)
 		payload, err := io.ReadAll(resp.Body)
+		assert.NoError(t, err)
 		assert.NoError(t, resp.Body.Close())
 		assert.NoError(t, json.Unmarshal(payload, &p))
 		assert.Equal(t, s, p.Data[0])
@@ -87,6 +88,7 @@ func TestApp_Run(t *testing.T) {
 		resp, err = http.Get("http://localhost:8080/api/v1/station?addr=" + addr)
 		assert.NoError(t, err)
 		payload, err = io.ReadAll(resp.Body)
+		assert.NoError(t, err)
 		assert.NoError(t, resp.Body.Close())
 		assert.NoError(t, json.Unmarshal(payload, &p))
 		assert.Equal(t, s, p.Data[0])
@@ -100,7 +102,7 @@ func TestApp_Run(t *testing.T) {
 
 		for i := 0; i < 10; i++ {
 			records[i] = getRecord(station.Id)
-			records[i].Time.Add(time.Duration(-i) * time.Minute).UTC()
+			records[i].Time = records[i].Time.Add(time.Duration(-i) * time.Minute).UTC()
 		}
 
 		db.Create(station)
