@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/echovisionlab/aws-weather-api/compare/v1.1.0...v1.1.1) (2024-03-26)
+
+
+### Bug Fixes
+
+* removes /api/v1 uri ([95e96e7](https://github.com/echovisionlab/aws-weather-api/commit/95e96e7179b4b0f29e3005fef6a048623c10e6ee))
+
 # [1.1.0](https://github.com/echovisionlab/aws-weather-api/compare/v1.0.0...v1.1.0) (2024-03-26)
 
 
