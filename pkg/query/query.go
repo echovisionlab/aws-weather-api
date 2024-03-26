@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"gorm.io/gorm"
 	"strings"
-	"time"
 )
 
 type (
@@ -20,35 +19,6 @@ type (
 		ID   int    `validate:"gte=0" form:"id"`
 	}
 )
-
-func (r *Record) Scope() func(*gorm.DB) *gorm.DB {
-	return func(db *gorm.DB) *gorm.DB {
-		db = db.Where("station_id = ?", r.StationID)
-
-		if r.Minute == 0 {
-			return db.Order("time DESC").Limit(1)
-		}
-
-		target := time.Now().Truncate(time.Minute).Add(time.Duration(-r.Minute) * time.Minute).UTC()
-
-		page, size := r.Page, r.PageSize
-		if page <= 0 {
-			page = 1
-		}
-		if size <= 0 {
-			size = 10
-		} else if size > 100 {
-			size = 100
-		}
-		offset := (page - 1) * size
-
-		return db.
-			Where("time > ?", target).
-			Where("station_id = ?", r.StationID).
-			Offset(offset).
-			Limit(size)
-	}
-}
 
 func (r *Station) Scope() func(*gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {

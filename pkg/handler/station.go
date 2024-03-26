@@ -1,4 +1,4 @@
-package record
+package handler
 
 import (
 	"github.com/echovisionlab/aws-weather-api/pkg/query"
@@ -8,16 +8,16 @@ import (
 	"net/http"
 )
 
-func Get(service *service.Service, validate *validator.Validate) func(c *gin.Context) {
+func GetStation(service *service.Service, validate *validator.Validate) func(c *gin.Context) {
 	return func(c *gin.Context) {
-		var q query.Record
+		var q query.Station
 		if err := c.ShouldBindQuery(&q); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		}
 		if err := validate.Struct(q); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		}
-		records := service.FindRecordBy(&q)
-		c.JSON(http.StatusOK, gin.H{"data": records})
+		stations := service.FindStationBy(&q)
+		c.JSON(http.StatusOK, gin.H{"data": stations})
 	}
 }
