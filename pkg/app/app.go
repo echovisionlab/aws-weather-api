@@ -64,8 +64,8 @@ func maxPageSize() (int, error) {
 func (app *App) Run() func() {
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.Default()
-	router.GET("/api/v1/record", handler.GetRecord(app.Service, app.Validate))
-	router.GET("/api/v1/station", handler.GetStation(app.Service, app.Validate))
+	router.GET("/record", handler.GetRecord(app.Service, app.Validate))
+	router.GET("/station", handler.GetStation(app.Service, app.Validate))
 
 	server := &http.Server{
 		Addr:    ":8080",

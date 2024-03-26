@@ -44,7 +44,7 @@ func TestApp_Run(t *testing.T) {
 		var rec model.Record
 		db.Where("station_id = 33").First(&rec)
 
-		resp, err := http.Get("http://localhost:8080/api/v1/record?station=33")
+		resp, err := http.Get("http://localhost:8080/record?station=33")
 		assert.NoError(t, err)
 
 		p := struct {
@@ -77,7 +77,7 @@ func TestApp_Run(t *testing.T) {
 			Data []*model.Station `json:"data"`
 		}{}
 
-		resp, err := http.Get("http://localhost:8080/api/v1/station?name=" + name)
+		resp, err := http.Get("http://localhost:8080/station?name=" + name)
 		assert.NoError(t, err)
 		payload, err := io.ReadAll(resp.Body)
 		assert.NoError(t, err)
@@ -85,7 +85,7 @@ func TestApp_Run(t *testing.T) {
 		assert.NoError(t, json.Unmarshal(payload, &p))
 		assert.Equal(t, s, p.Data[0])
 
-		resp, err = http.Get("http://localhost:8080/api/v1/station?addr=" + addr)
+		resp, err = http.Get("http://localhost:8080/station?addr=" + addr)
 		assert.NoError(t, err)
 		payload, err = io.ReadAll(resp.Body)
 		assert.NoError(t, err)
@@ -108,7 +108,7 @@ func TestApp_Run(t *testing.T) {
 		db.Create(station)
 		db.Create(records)
 
-		resp, err := http.Get("http://localhost:8080/api/v1/record?station=1&minute=5&page_size=2")
+		resp, err := http.Get("http://localhost:8080/record?station=1&minute=5&page_size=2")
 		assert.NoError(t, err)
 		bytes, err := io.ReadAll(resp.Body)
 		assert.NoError(t, err)
