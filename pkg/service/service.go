@@ -10,17 +10,16 @@ import (
 )
 
 type Config struct {
-	DB          *gorm.DB
-	MaxPageSize int
+	MaxPageSize int `validate:"gt=0,lte=100"`
 }
 
 type Service struct {
 	DB          *gorm.DB
-	MaxPageSize int `validate:"gt=0,lte=100"`
+	MaxPageSize int
 }
 
-func New(config *Config) *Service {
-	return &Service{config.DB, config.MaxPageSize}
+func New(db *gorm.DB, config *Config) *Service {
+	return &Service{db, config.MaxPageSize}
 }
 
 func (s *Service) FindStationBy(q *query.Station) []*model.Station {

@@ -29,6 +29,7 @@ func New() (*App, error) {
 	} else {
 		return &App{svc, validate}, nil
 	}
+
 }
 
 func GetService(v *validator.Validate) (*service.Service, error) {
@@ -42,7 +43,6 @@ func GetService(v *validator.Validate) (*service.Service, error) {
 	}
 
 	config := &service.Config{
-		DB:          db,
 		MaxPageSize: mps,
 	}
 
@@ -50,7 +50,7 @@ func GetService(v *validator.Validate) (*service.Service, error) {
 		return nil, err
 	}
 
-	return service.New(config), nil
+	return service.New(db, config), nil
 }
 
 func maxPageSize() (int, error) {
